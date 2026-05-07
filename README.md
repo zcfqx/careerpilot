@@ -1,4 +1,4 @@
-# AI韧性职业适配系统
+# CareerPilot (职引)
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 ![Python](https://img.shields.io/badge/python-%3E%3D3.11-yellow.svg)
 ![WeChat](https://img.shields.io/badge/微信小程序-原生框架-07C160.svg)
 
-**基于招聘大数据与AI大模型的智能职业规划平台**
+**AI驱动的职业领航系统**
 
 为应届生和职场新人提供AI驱动的职业韧性评估、岗位适配推荐、职业发展规划和能力培养方案。
 
@@ -46,7 +46,7 @@
 
 ## 项目简介
 
-AI韧性职业适配系统是一款创新的微信小程序应用，旨在帮助应届生和职场新人更好地了解自身职业竞争力，获得个性化的职业发展建议。
+CareerPilot (职引) 是一款创新的AI驱动职业规划微信小程序，旨在帮助应届生和职场新人更好地了解自身职业竞争力，获得个性化的职业发展建议。
 
 ### 核心价值
 
@@ -169,8 +169,8 @@ AI韧性职业适配系统是一款创新的微信小程序应用，旨在帮助
 #### 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-username/ai-career-weapp.git
-cd ai-career-weapp
+git clone https://github.com/zcfqx/careerpilot.git
+cd careerpilot
 ```
 
 #### 2. 安装后端依赖
@@ -596,7 +596,7 @@ sudo apt-get install -y nodejs
 
 # 2. 克隆代码
 git clone <repository-url>
-cd ai-career-weapp
+cd careerpilot
 
 # 3. 安装依赖
 cd backend
@@ -608,7 +608,7 @@ cp .env.example .env
 
 # 5. 使用PM2启动
 npm install -g pm2
-pm2 start app.js --name ai-career-backend
+pm2 start app.js --name careerpilot-backend
 
 # 6. 配置Nginx反向代理
 # 参考docs/01-环境搭建指南.md
@@ -813,8 +813,7 @@ SOFTWARE.
 ## 联系方式
 
 - **作者**: MaJY
-- **邮箱**: your-email@example.com
-- **GitHub**: [your-github-profile](https://github.com/your-username)
+- **GitHub**: [zcfqx](https://github.com/zcfqx)
 
 ---
 
