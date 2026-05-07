@@ -1,0 +1,85 @@
+<view class="container">
+  <view class="tab-bar">
+    <view class="tab-item {{activeTab === 'trend' ? 'active' : ''}}" bindtap="switchTab" data-tab="trend">需求趋势</view>
+    <view class="tab-item {{activeTab === 'skill' ? 'active' : ''}}" bindtap="switchTab" data-tab="skill">技能词云</view>
+    <view class="tab-item {{activeTab === 'jobs' ? 'active' : ''}}" bindtap="switchTab" data-tab="jobs">岗位列表</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">数据加载中...</view>
+  </view>
+
+  <view wx:elif="{{errorMsg}}" class="empty-state">
+    <text class="empty-icon">⚠️</text>
+    <text class="empty-text">{{errorMsg}}</text>
+    <button class="refresh-btn" bindtap="refreshData">重新加载</button>
+  </view>
+
+  <view wx:elif="{{activeTab === 'trend'}}">
+    <view wx:if="{{hasData && trendData.trends.length > 0}}">
+      <view wx:for="{{trendData.trends}}" wx:key="jobTitle" class="card">
+        <view class="card-title">{{item.jobTitle}}</view>
+        <view class="trend-chart">
+          <view wx:for="{{item.data}}" wx:for-item="bar" wx:key="date" class="trend-bar-wrap">
+            <view class="trend-bar" style="height: {{bar.count / 20}}rpx;"></view>
+            <text class="trend-date">{{bar.date}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <text class="empty-icon">📊</text>
+      <text class="empty-text">暂无趋势数据</text>
+      <text class="empty-hint">请先在首页点击"数据更新"采集数据，或下拉刷新</text>
+      <button class="refresh-btn" bindtap="refreshData">刷新数据</button>
+    </view>
+  </view>
+
+  <view wx:elif="{{activeTab === 'skill'}}">
+    <view wx:if="{{skillData && skillData.skills.length > 0}}" class="card">
+      <view class="card-title">热门技能词云</view>
+      <view class="skill-cloud">
+        <view wx:for="{{skillData.skills}}" wx:key="name"
+              class="cloud-tag"
+              style="font-size: {{20 + item.weight / 3}}rpx; opacity: {{0.5 + item.weight / 200}};">
+          {{item.name}}
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <text class="empty-icon">🏷️</text>
+      <text class="empty-text">暂无技能数据</text>
+      <button class="refresh-btn" bindtap="refreshData">刷新数据</button>
+    </view>
+  </view>
+
+  <view wx:elif="{{activeTab === 'jobs'}}">
+    <view class="search-bar">
+      <input placeholder="搜索岗位" value="{{keyword}}" bindinput="onSearchInput" bindconfirm="searchJobs" class="search-input" />
+      <button class="search-btn" bindtap="searchJobs">搜索</button>
+    </view>
+    <view wx:if="{{jobList.length > 0}}">
+      <view wx:for="{{jobList}}" wx:key="jobId" class="card job-card">
+        <view class="flex-between">
+          <text class="job-title">{{item.jobTitle}}</text>
+          <text class="job-salary">{{item.salaryMin && item.salaryMax ? (item.salaryMin/1000)+'K-'+(item.salaryMax/1000)+'K' : '面议'}}</text>
+        </view>
+        <view class="job-company">{{item.companyName || '未知公司'}}</view>
+        <view class="job-meta">
+          <text wx:if="{{item.city}}">{{item.city}}</text>
+          <text wx:if="{{item.experience}}"> | {{item.experience}}</text>
+          <text wx:if="{{item.education}}"> | {{item.education}}</text>
+        </view>
+        <view class="job-tags" wx:if="{{item.skillTags && item.skillTags.length > 0}}">
+          <text wx:for="{{item.skillTags}}" wx:for-item="tag" wx:key="*this" class="job-tag">{{tag}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="empty-state">
+      <text class="empty-icon">💼</text>
+      <text class="empty-text">暂无岗位数据</text>
+      <button class="refresh-btn" bindtap="refreshData">刷新数据</button>
+    </view>
+  </view>
+</view>

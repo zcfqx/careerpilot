@@ -1,0 +1,119 @@
+<view class="container">
+  <!-- 生成进度覆盖层 -->
+  <view wx:if="{{generating}}" class="generating-mask">
+    <view class="generating-card">
+      <view class="generating-icon-wrap">
+        <view class="ai-pulse"></view>
+        <view class="ai-icon">🎯</view>
+      </view>
+      <view class="generating-title">AI职业规划生成中</view>
+      <view class="generating-step">{{generatingStep}}</view>
+      <view class="progress-bar-wrap">
+        <view class="progress-bar" style="width: {{generatingProgress}}%;"></view>
+      </view>
+      <view class="progress-percent">{{generatingProgress}}%</view>
+      <view class="generating-hint">正在为您量身定制职业发展路径...</view>
+      <view class="data-flow">
+        <view class="flow-dot" style="animation-delay: 0s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.2s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.4s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.6s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.8s;"></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <view wx:elif="{{errorMsg}}" class="empty-state">
+    <text class="empty-icon">⚠️</text>
+    <text class="empty-text">{{errorMsg}}</text>
+    <button class="refresh-btn" bindtap="retryLoad">重新加载</button>
+  </view>
+
+  <view wx:elif="{{plan}}" class="content">
+    <view class="card plan-header">
+      <view class="plan-job">{{plan.jobTitle}}</view>
+      <view class="plan-subtitle">个性化职业发展路径</view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">短期目标（1年内）</view>
+      <view class="goal-list">
+        <view wx:for="{{plan.shortTerm.goals}}" wx:key="*this" class="goal-item">
+          <view class="goal-icon">🎯</view>
+          <text class="goal-text">{{item}}</text>
+        </view>
+      </view>
+      <view class="section-title mt-24">关键里程碑</view>
+      <view class="milestone-list">
+        <view wx:for="{{plan.shortTerm.milestones}}" wx:key="month" class="milestone-item">
+          <view class="milestone-dot"></view>
+          <view class="milestone-line"></view>
+          <view class="milestone-content">
+            <text class="milestone-time">第{{item.month}}个月</text>
+            <text class="milestone-desc">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">中期目标（3年内）</view>
+      <view class="goal-list">
+        <view wx:for="{{plan.midTerm.goals}}" wx:key="*this" class="goal-item">
+          <view class="goal-icon">🚀</view>
+          <text class="goal-text">{{item}}</text>
+        </view>
+      </view>
+      <view class="section-title mt-24">关键里程碑</view>
+      <view class="milestone-list">
+        <view wx:for="{{plan.midTerm.milestones}}" wx:key="year" class="milestone-item">
+          <view class="milestone-dot mid"></view>
+          <view class="milestone-line"></view>
+          <view class="milestone-content">
+            <text class="milestone-time">第{{item.year}}年</text>
+            <text class="milestone-desc">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <button class="btn-secondary" bindtap="closePlan">返回列表</button>
+    </view>
+  </view>
+
+  <view wx:else class="content">
+    <view class="card">
+      <view class="card-title">生成职业规划</view>
+      <view class="form-group">
+        <text class="form-label">目标岗位</text>
+        <input class="plan-input" placeholder="请输入目标岗位名称，如：产品经理" value="{{jobTitle}}" bindinput="onJobInput" />
+      </view>
+      <button class="btn-primary" bindtap="generatePlan" disabled="{{generating}}">
+        {{generating ? '生成中...' : 'AI生成职业规划'}}
+      </button>
+    </view>
+
+    <view wx:if="{{plans.length > 0}}" class="card">
+      <view class="card-title">历史规划</view>
+      <view wx:for="{{plans}}" wx:key="id" class="plan-item" bindtap="viewPlan" data-id="{{item.id}}">
+        <view class="plan-item-info">
+          <text class="plan-item-title">{{item.career_direction || '职业规划'}}</text>
+          <text class="plan-item-time">{{item.created_at}}</text>
+        </view>
+        <text class="plan-item-arrow">›</text>
+      </view>
+    </view>
+
+    <view wx:if="{{plans.length === 0}}" class="empty-state">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无规划记录</text>
+      <text class="empty-hint">输入目标岗位，AI将为您生成个性化职业规划</text>
+    </view>
+  </view>
+</view>

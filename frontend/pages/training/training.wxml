@@ -1,0 +1,59 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">加载培养方案中...</view>
+  </view>
+
+  <view wx:elif="{{errorMsg}}" class="empty-state">
+    <text class="empty-icon">⚠️</text>
+    <text class="empty-text">{{errorMsg}}</text>
+    <view class="btn-row">
+      <button class="retry-btn" bindtap="retryLoad">重新加载</button>
+      <button class="back-btn" bindtap="goBack">返回</button>
+    </view>
+  </view>
+
+  <view wx:elif="{{training}}" class="content">
+    <view class="card summary-card">
+      <view class="summary-title">培养方案总览</view>
+      <view class="summary-row">
+        <view class="summary-item">
+          <text class="summary-num">{{training.trainingPlan.length}}</text>
+          <text class="summary-label">项技能</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-num">{{training.totalSuggestedHours}}</text>
+          <text class="summary-label">建议学时</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-num">{{training.estimatedWeeks}}</text>
+          <text class="summary-label">预计周数</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:for="{{training.trainingPlan}}" wx:key="skill" class="card">
+      <view class="flex-between">
+        <view class="skill-title">{{item.skill}}</view>
+        <view class="priority-tag priority-{{item.priority}}">{{item.priority === 'high' ? '高优' : item.priority === 'medium' ? '中优' : '低优'}}</view>
+      </view>
+      <view class="skill-level">{{item.level}}</view>
+      <view class="suggested-hours">建议学习：{{item.suggestedHours}}小时</view>
+
+      <view class="section-title mt-24">推荐课程</view>
+      <view wx:for="{{item.courses}}" wx:for-item="course" wx:key="name" class="course-item">
+        <view class="course-name">{{course.name}}</view>
+        <view class="course-meta">
+          <text class="course-platform">{{course.platform}}</text>
+          <text class="course-duration">{{course.duration}}</text>
+        </view>
+      </view>
+
+      <view class="section-title mt-24">AI工具实操</view>
+      <view wx:for="{{item.aiTools}}" wx:for-item="tool" wx:key="name" class="tool-item">
+        <view class="tool-name">🤖 {{tool.name}}</view>
+        <view class="tool-practice">{{tool.practice}}</view>
+      </view>
+    </view>
+  </view>
+</view>

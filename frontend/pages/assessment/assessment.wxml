@@ -1,0 +1,155 @@
+<view class="container">
+  <!-- AI生成进度覆盖层 -->
+  <view wx:if="{{submitting}}" class="generating-mask">
+    <view class="generating-card">
+      <view class="generating-icon-wrap">
+        <view class="ai-pulse"></view>
+        <view class="ai-icon">🤖</view>
+      </view>
+      <view class="generating-title">AI智能评估中</view>
+      <view class="generating-step">{{generatingStep}}</view>
+      <view class="progress-bar-wrap">
+        <view class="progress-bar" style="width: {{generatingProgress}}%;"></view>
+      </view>
+      <view class="progress-percent">{{generatingProgress}}%</view>
+      <view class="generating-hint">AI正在深度分析您的信息，请耐心等待...</view>
+      <view class="data-flow">
+        <view class="flow-dot" style="animation-delay: 0s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.2s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.4s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.6s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.8s;"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="step-bar">
+    <view class="step-item {{step >= 1 ? 'active' : ''}}">
+      <view class="step-dot">1</view>
+      <text>专业信息</text>
+    </view>
+    <view class="step-line {{step >= 2 ? 'active' : ''}}"></view>
+    <view class="step-item {{step >= 2 ? 'active' : ''}}">
+      <view class="step-dot">2</view>
+      <text>性格特质</text>
+    </view>
+    <view class="step-line {{step >= 3 ? 'active' : ''}}"></view>
+    <view class="step-item {{step >= 3 ? 'active' : ''}}">
+      <view class="step-dot">3</view>
+      <text>工作偏好</text>
+    </view>
+  </view>
+
+  <!-- Step 1: 专业信息 -->
+  <view wx:if="{{step === 1}}" class="step-content">
+    <view class="card">
+      <view class="card-title">你的专业是什么？</view>
+      <view class="major-input-wrap" bindtap="showMajorPicker">
+        <text class="{{major ? 'major-selected' : 'major-placeholder'}}">{{major || '点击选择专业'}}</text>
+        <text class="arrow">▼</text>
+      </view>
+      <view class="major-custom">
+        <input placeholder="或直接输入专业名称" value="{{major}}" bindinput="onMajorInput" class="major-input" />
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <button class="btn-primary" bindtap="nextStep">下一步</button>
+    </view>
+  </view>
+
+  <!-- Step 2: 性格特质 -->
+  <view wx:if="{{step === 2}}" class="step-content">
+    <view class="card" wx:for="{{personalityQuestions}}" wx:key="index" wx:for-item="q" wx:for-index="qindex">
+      <view class="card-title">问题{{qindex + 1}}：{{q.question}}</view>
+      <view wx:for="{{q.options}}" wx:key="index" wx:for-item="opt" wx:for-index="oindex">
+        <view class="option-item {{personalityAnswers[qindex] === oindex + 1 ? 'selected' : ''}}"
+              bindtap="selectPersonality" data-qindex="{{qindex}}" data-oindex="{{oindex}}">
+          <view class="option-radio {{personalityAnswers[qindex] === oindex + 1 ? 'checked' : ''}}"></view>
+          <text>{{opt}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <button class="btn-secondary" bindtap="prevStep">上一步</button>
+      <button class="btn-primary" bindtap="nextStep">下一步</button>
+    </view>
+  </view>
+
+  <!-- Step 3: 工作偏好 -->
+  <view wx:if="{{step === 3}}" class="step-content">
+    <view class="card">
+      <view class="card-title">工作模式偏好</view>
+      <view class="tag-group">
+        <view wx:for="{{workModeOptions}}" wx:key="value"
+              class="tag-item {{item.selected ? 'selected' : ''}}"
+              bindtap="toggleOption" data-type="workMode" data-index="{{index}}">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">公司类型偏好</view>
+      <view class="tag-group">
+        <view wx:for="{{companyTypeOptions}}" wx:key="value"
+              class="tag-item {{item.selected ? 'selected' : ''}}"
+              bindtap="toggleOption" data-type="companyType" data-index="{{index}}">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">工作风格偏好</view>
+      <view class="tag-group">
+        <view wx:for="{{workStyleOptions}}" wx:key="value"
+              class="tag-item {{item.selected ? 'selected' : ''}}"
+              bindtap="toggleOption" data-type="workStyle" data-index="{{index}}">
+          {{item.label}}
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">简历要点（选填）</view>
+      <view class="form-group">
+        <text class="form-label">实习经历</text>
+        <textarea placeholder="如：某互联网公司HR实习生3个月" value="{{resume.internships}}" bindinput="onResumeInput" data-field="internships" class="form-textarea" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">项目经验</text>
+        <textarea placeholder="如：校园招聘管理系统（负责需求分析）" value="{{resume.projects}}" bindinput="onResumeInput" data-field="projects" class="form-textarea" />
+      </view>
+      <view class="form-group">
+        <text class="form-label">技能特长</text>
+        <textarea placeholder="如：Excel、PPT、基础Python" value="{{resume.skills}}" bindinput="onResumeInput" data-field="skills" class="form-textarea" />
+      </view>
+    </view>
+
+    <view class="btn-group">
+      <button class="btn-secondary" bindtap="prevStep">上一步</button>
+      <button class="btn-primary" bindtap="submitForm" disabled="{{submitting}}">
+        {{submitting ? 'AI评估中...' : '提交评估'}}
+      </button>
+    </view>
+  </view>
+
+  <!-- 专业选择弹窗 -->
+  <view wx:if="{{showMajorPicker}}" class="picker-mask" bindtap="hideMajorPicker">
+    <view class="picker-content" catchtap="">
+      <view class="picker-header">
+        <text>选择专业</text>
+        <text class="picker-close" bindtap="hideMajorPicker">✕</text>
+      </view>
+      <scroll-view scroll-y class="picker-list">
+        <view wx:for="{{majorList}}" wx:key="*this"
+              class="picker-item {{major === item ? 'active' : ''}}"
+              bindtap="selectMajor" data-major="{{item}}">
+          {{item}}
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

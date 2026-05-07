@@ -1,0 +1,26 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中...</view>
+  </view>
+  <view wx:elif="{{job}}" class="content">
+    <view class="card">
+      <view class="card-title">{{job.jobTitle}}</view>
+      <view class="job-salary" wx:if="{{job.salaryMin || job.salaryMax}}">
+        {{job.salaryMin/1000}}K-{{job.salaryMax/1000}}K
+      </view>
+      <view class="job-meta mt-16">
+        <text wx:if="{{job.companyName}}">{{job.companyName}}</text>
+        <text wx:if="{{job.city}}"> | {{job.city}}</text>
+        <text wx:if="{{job.experience}}"> | {{job.experience}}</text>
+        <text wx:if="{{job.education}}"> | {{job.education}}</text>
+      </view>
+      <view class="job-tags mt-16" wx:if="{{job.skillTags && job.skillTags.length > 0}}">
+        <text wx:for="{{job.skillTags}}" wx:for-item="tag" wx:key="*this" class="job-tag">{{tag}}</text>
+      </view>
+    </view>
+    <view class="card" wx:if="{{job.description}}">
+      <view class="card-title">岗位描述</view>
+      <text class="job-desc">{{job.description}}</text>
+    </view>
+  </view>
+</view>

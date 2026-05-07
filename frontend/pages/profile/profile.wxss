@@ -1,0 +1,154 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400rpx;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  margin-right: 24rpx;
+}
+
+.avatar-wrap {
+  margin-right: 24rpx;
+}
+
+.avatar-default {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.avatar-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.nickname {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+}
+
+.major {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.stats-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+}
+
+.stat-item {
+  flex: 1;
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1890ff;
+  display: block;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-top: 4rpx;
+}
+
+.stat-divider {
+  width: 2rpx;
+  height: 60rpx;
+  background-color: #f0f0f0;
+}
+
+.history-item {
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f5f6fa;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-job {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.history-score {
+  font-size: 28rpx;
+  font-weight: 600;
+}
+
+.empty-hint {
+  text-align: center;
+  padding: 40rpx 0;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f5f6fa;
+  font-size: 28rpx;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-arrow {
+  color: #ccc;
+}
+
+.about-card {
+  text-align: center;
+  padding: 24rpx;
+}
+
+.about-text {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+.about-desc {
+  font-size: 22rpx;
+  color: #ccc;
+  display: block;
+  margin-top: 4rpx;
+}

@@ -1,0 +1,70 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <view wx:elif="{{userInfo}}" class="content">
+    <view class="card profile-card">
+      <view class="avatar-wrap">
+        <image wx:if="{{userInfo.avatar}}" class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" />
+        <view wx:else class="avatar avatar-default">
+          <text class="avatar-text">{{userInfo.nickname ? userInfo.nickname[0] : '用'}}</text>
+        </view>
+      </view>
+      <view class="profile-info">
+        <text class="nickname">{{userInfo.nickname}}</text>
+        <text class="major" wx:if="{{userInfo.major}}">{{userInfo.major}}</text>
+      </view>
+    </view>
+
+    <view class="card stats-card">
+      <view class="stat-item" bindtap="goToAssessment">
+        <text class="stat-num">{{userInfo.assessmentCount}}</text>
+        <text class="stat-label">AI评估</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{userInfo.planCount}}</text>
+        <text class="stat-label">职业规划</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">评估历史</view>
+      <view wx:if="{{assessmentHistory.length > 0}}">
+        <view wx:for="{{assessmentHistory}}" wx:key="assessmentId" class="history-item" bindtap="viewAssessment" data-id="{{item.assessmentId}}">
+          <view class="flex-between">
+            <text class="history-job">{{item.topJob}}</text>
+            <text class="history-score" style="color: {{item.topMatchScore >= 80 ? '#52c41a' : item.topMatchScore >= 60 ? '#faad14' : '#ff4d4f'}}">
+              {{item.topMatchScore}}%
+            </text>
+          </view>
+          <view class="flex-between mt-8">
+            <text class="text-secondary">韧性得分 {{item.totalScore}}</text>
+            <text class="text-secondary">{{item.createdAt}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="empty-hint">
+        <text>还没有评估记录，快去评估吧！</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">快捷功能</view>
+      <view class="menu-item" bindtap="goToTrend">
+        <text>📊 趋势洞察</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <view class="menu-item" bindtap="goToAssessment">
+        <text>🤖 AI评估</text>
+        <text class="menu-arrow">→</text>
+      </view>
+    </view>
+
+    <view class="card about-card">
+      <text class="about-text">AI韧性职业适配系统 v1.0</text>
+      <text class="about-desc">数据驱动 · AI赋能 · 精准匹配</text>
+    </view>
+  </view>
+</view>

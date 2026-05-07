@@ -1,0 +1,124 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400rpx;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #1890ff, #36cfc9);
+  color: #ffffff;
+  text-align: center;
+  padding: 48rpx 32rpx;
+}
+
+.hero-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  margin-bottom: 12rpx;
+}
+
+.hero-desc {
+  font-size: 26rpx;
+  opacity: 0.85;
+  margin-bottom: 32rpx;
+}
+
+.hero-stat {
+  margin-bottom: 32rpx;
+}
+
+.stat-num {
+  font-size: 56rpx;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 26rpx;
+  opacity: 0.85;
+}
+
+.hero-btn {
+  background-color: #ffffff !important;
+  color: #1890ff !important;
+  font-weight: 600;
+  width: 400rpx;
+  margin: 0 auto;
+}
+
+.hot-job-item {
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.hot-job-item:last-child {
+  border-bottom: none;
+}
+
+.job-name {
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.job-count {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.trend-tag {
+  font-size: 24rpx;
+  margin-top: 4rpx;
+}
+
+.skill-growth-item {
+  padding: 12rpx 0;
+}
+
+.skill-name {
+  font-size: 28rpx;
+}
+
+.skill-growth {
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.growth-bar-wrap {
+  height: 8rpx;
+  background-color: #f0f0f0;
+  border-radius: 4rpx;
+  margin-top: 8rpx;
+}
+
+.growth-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #1890ff, #52c41a);
+  border-radius: 4rpx;
+}
+
+.entry-grid {
+  display: flex;
+  justify-content: space-around;
+}
+
+.entry-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16rpx;
+}
+
+.entry-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.entry-text {
+  font-size: 24rpx;
+  color: #666;
+}

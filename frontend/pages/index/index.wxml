@@ -1,0 +1,68 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <view wx:elif="{{overview}}" class="content">
+    <view class="card hero-card">
+      <view class="hero-title">AI韧性职业适配系统</view>
+      <view class="hero-desc">数据驱动 · AI赋能 · 精准匹配</view>
+      <view class="hero-stat">
+        <text class="stat-num">{{overview.totalJobs}}</text>
+        <text class="stat-label">个岗位数据</text>
+      </view>
+      <button class="btn-primary hero-btn" bindtap="goToAssessment">开始AI评估</button>
+    </view>
+
+    <view class="card">
+      <view class="flex-between mb-16">
+        <view class="card-title">热门岗位</view>
+        <view class="text-primary" bindtap="goToTrend">查看趋势 →</view>
+      </view>
+      <view wx:for="{{overview.hotJobs}}" wx:key="jobTitle" class="hot-job-item">
+        <view class="flex-between">
+          <text class="job-name">{{item.jobTitle}}</text>
+          <text class="job-count">{{item.count}}个在招</text>
+        </view>
+        <text class="trend-tag" style="color: {{item.trend === 'up' ? '#52c41a' : item.trend === 'down' ? '#ff4d4f' : '#999'}}">
+          {{item.trend === 'up' ? '↑ 上升' : item.trend === 'down' ? '↓ 下降' : '→ 平稳'}}
+        </text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">热门技能增长</view>
+      <view wx:for="{{overview.hotSkills}}" wx:key="name" class="skill-growth-item">
+        <view class="flex-between">
+          <text class="skill-name">{{item.name}}</text>
+          <text class="skill-growth text-success">+{{item.growth}}%</text>
+        </view>
+        <view class="growth-bar-wrap">
+          <view class="growth-bar" style="width: {{item.growth > 100 ? 100 : item.growth}}%"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card quick-entry">
+      <view class="card-title">快捷入口</view>
+      <view class="entry-grid">
+        <view class="entry-item" bindtap="goToTrend">
+          <view class="entry-icon">📊</view>
+          <text class="entry-text">趋势洞察</text>
+        </view>
+        <view class="entry-item" bindtap="goToAssessment">
+          <view class="entry-icon">🤖</view>
+          <text class="entry-text">AI评估</text>
+        </view>
+        <view class="entry-item" bindtap="goToJobList">
+          <view class="entry-icon">💼</view>
+          <text class="entry-text">岗位浏览</text>
+        </view>
+        <view class="entry-item" bindtap="startCrawler">
+          <view class="entry-icon">{{crawlerRunning ? '⏳' : '🔄'}}</view>
+          <text class="entry-text">{{crawlerText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

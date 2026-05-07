@@ -1,0 +1,127 @@
+<view class="container">
+  <!-- 生成进度覆盖层 -->
+  <view wx:if="{{generatingType}}" class="generating-mask">
+    <view class="generating-card">
+      <view class="generating-icon-wrap">
+        <view class="ai-pulse"></view>
+        <view class="ai-icon">{{generatingType === 'career' ? '🎯' : '📚'}}</view>
+      </view>
+      <view class="generating-title">{{generatingType === 'career' ? 'AI职业规划生成中' : 'AI培养方案生成中'}}</view>
+      <view class="generating-step">{{generatingStep}}</view>
+      <view class="progress-bar-wrap">
+        <view class="progress-bar" style="width: {{generatingProgress}}%;"></view>
+      </view>
+      <view class="progress-percent">{{generatingProgress}}%</view>
+      <view class="generating-hint">AI正在为您量身定制，请耐心等待...</view>
+      <view class="data-flow">
+        <view class="flow-dot" style="animation-delay: 0s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.2s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.4s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.6s;"></view>
+        <view class="flow-dot" style="animation-delay: 0.8s;"></view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <view wx:elif="{{result}}" class="content">
+    <view class="card score-card">
+      <view class="score-title">职业韧性得分</view>
+      <view class="score-circle" style="border-color: {{result.resilienceScore.total >= 80 ? '#52c41a' : result.resilienceScore.total >= 60 ? '#faad14' : '#ff4d4f'}}">
+        <text class="score-number">{{result.resilienceScore.total}}</text>
+        <text class="score-unit">分</text>
+      </view>
+      <view class="dimension-list">
+        <view class="dimension-item">
+          <text class="dim-label">抗压能力</text>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width: {{result.resilienceScore.dimensions.stressResistance}}%; background-color: {{result.resilienceScore.dimensions.stressResistance >= 80 ? '#52c41a' : result.resilienceScore.dimensions.stressResistance >= 60 ? '#faad14' : '#ff4d4f'}}"></view>
+          </view>
+          <text class="dim-value">{{result.resilienceScore.dimensions.stressResistance}}</text>
+        </view>
+        <view class="dimension-item">
+          <text class="dim-label">适应能力</text>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width: {{result.resilienceScore.dimensions.adaptability}}%; background-color: {{result.resilienceScore.dimensions.adaptability >= 80 ? '#52c41a' : result.resilienceScore.dimensions.adaptability >= 60 ? '#faad14' : '#ff4d4f'}}"></view>
+          </view>
+          <text class="dim-value">{{result.resilienceScore.dimensions.adaptability}}</text>
+        </view>
+        <view class="dimension-item">
+          <text class="dim-label">学习能力</text>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width: {{result.resilienceScore.dimensions.learningAbility}}%; background-color: {{result.resilienceScore.dimensions.learningAbility >= 80 ? '#52c41a' : result.resilienceScore.dimensions.learningAbility >= 60 ? '#faad14' : '#ff4d4f'}}"></view>
+          </view>
+          <text class="dim-value">{{result.resilienceScore.dimensions.learningAbility}}</text>
+        </view>
+        <view class="dimension-item">
+          <text class="dim-label">创新能力</text>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width: {{result.resilienceScore.dimensions.innovation}}%; background-color: {{result.resilienceScore.dimensions.innovation >= 80 ? '#52c41a' : result.resilienceScore.dimensions.innovation >= 60 ? '#faad14' : '#ff4d4f'}}"></view>
+          </view>
+          <text class="dim-value">{{result.resilienceScore.dimensions.innovation}}</text>
+        </view>
+        <view class="dimension-item">
+          <text class="dim-label">协作能力</text>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width: {{result.resilienceScore.dimensions.collaboration}}%; background-color: {{result.resilienceScore.dimensions.collaboration >= 80 ? '#52c41a' : result.resilienceScore.dimensions.collaboration >= 60 ? '#faad14' : '#ff4d4f'}}"></view>
+          </view>
+          <text class="dim-value">{{result.resilienceScore.dimensions.collaboration}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="card-title">适配岗位推荐</view>
+      <view class="job-tabs">
+        <view wx:for="{{result.matchedJobs}}" wx:key="jobTitle"
+              class="job-tab {{activeJobIndex === index ? 'active' : ''}}"
+              bindtap="selectJob" data-index="{{index}}">
+          {{item.jobTitle}}
+        </view>
+      </view>
+
+      <view wx:if="{{result.matchedJobs[activeJobIndex]}}" class="job-detail">
+        <view class="match-score-wrap">
+          <text class="match-label">匹配度</text>
+          <text class="match-score" style="color: {{result.matchedJobs[activeJobIndex].matchScore >= 80 ? '#52c41a' : result.matchedJobs[activeJobIndex].matchScore >= 60 ? '#faad14' : '#ff4d4f'}}">
+            {{result.matchedJobs[activeJobIndex].matchScore}}%
+          </text>
+        </view>
+
+        <view class="section">
+          <view class="section-title">匹配理由</view>
+          <view wx:for="{{result.matchedJobs[activeJobIndex].matchReasons}}" wx:key="*this" class="reason-item">
+            <text class="reason-dot">●</text>
+            <text>{{item}}</text>
+          </view>
+        </view>
+
+        <view class="section" wx:if="{{result.matchedJobs[activeJobIndex].gapSkills.length > 0}}">
+          <view class="section-title">缺口技能</view>
+          <view class="tag-group">
+            <view wx:for="{{result.matchedJobs[activeJobIndex].gapSkills}}" wx:key="*this" class="gap-tag skill-tag">{{item}}</view>
+          </view>
+        </view>
+
+        <view class="section" wx:if="{{result.matchedJobs[activeJobIndex].gapAbilities.length > 0}}">
+          <view class="section-title">缺口能力</view>
+          <view class="tag-group">
+            <view wx:for="{{result.matchedJobs[activeJobIndex].gapAbilities}}" wx:key="*this" class="gap-tag ability-tag">{{item}}</view>
+          </view>
+        </view>
+
+        <view class="action-btns">
+          <button class="btn-primary" bindtap="viewCareerPlan" disabled="{{generatingPlan}}">
+            {{generatingPlan ? '生成中...' : '查看职业规划'}}
+          </button>
+          <button class="btn-secondary" bindtap="viewTrainingPlan" disabled="{{generatingTraining}}">
+            {{generatingTraining ? '生成中...' : '查看培养方案'}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

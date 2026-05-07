@@ -1,0 +1,44 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400rpx;
+}
+
+.loading-text {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.job-salary {
+  font-size: 32rpx;
+  color: #ff4d4f;
+  font-weight: 600;
+  margin-top: 8rpx;
+}
+
+.job-meta {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.job-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.job-tag {
+  padding: 6rpx 16rpx;
+  background-color: #f0f5ff;
+  color: #1890ff;
+  border-radius: 6rpx;
+  font-size: 24rpx;
+}
+
+.job-desc {
+  font-size: 28rpx;
+  color: #555;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
